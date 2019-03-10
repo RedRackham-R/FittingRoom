@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+            android:id="@+id/menu_bottom_navigation_market"
+            android:enabled="true"
+            android:icon="@drawable/selector_bottom_market"
+            android:title="@string/home_page"
+            app:showAsAction="ifRoom" />
+    <item
+            android:id="@+id/menu_bottom_navigation_live"
+            android:enabled="true"
+            android:icon="@drawable/selector_bottom_live"
+            android:title="@string/live_broadcast"
+            app:showAsAction="ifRoom" />
+
+
+</menu>

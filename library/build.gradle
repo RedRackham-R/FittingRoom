@@ -1,0 +1,102 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+
+
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+ext{
+    v_eventBus = "3.1.1"
+    v_okhttp = "3.13.1"
+    v_retrofit2 = "2.5.0"
+    v_rxjava2 = "2.2.5"
+    v_rxjava2_rxandroid = "2.1.0"
+    v_gson = "2.8.5"
+    v_autosize = "1.1.2"
+    v_BaseRecyclerViewAdapterHelper = "2.9.46"
+    v_smartRefreshLayout = "1.1.0-alpha-20"
+    v_circleImageView = "3.0.0"
+    v_glide = "4.9.0"
+    v_easypermissions = "2.0.1"
+    v_spinKit = "1.2.0"
+    v_banner = "1.4.10"
+}
+
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //#############################################EventBus###################################################
+    api "org.greenrobot:eventbus:$v_eventBus"
+
+    //#############################################OkHttp###################################################
+    api "com.squareup.okhttp3:okhttp:$v_okhttp"
+    api "com.squareup.okhttp3:logging-interceptor:$v_okhttp"
+
+    //#############################################Retrofit###################################################
+    api "com.squareup.retrofit2:retrofit:$v_retrofit2"
+    api "com.squareup.retrofit2:converter-gson:$v_retrofit2"
+    api "com.squareup.retrofit2:adapter-rxjava2:$v_retrofit2"
+    api "com.squareup.retrofit2:retrofit-converters:$v_retrofit2"
+
+    //#############################################RxJava2 RxAndroid###################################################
+    api "io.reactivex.rxjava2:rxjava:$v_rxjava2"
+    api "io.reactivex.rxjava2:rxandroid:$v_rxjava2_rxandroid"
+
+    //#############################################Gson###################################################
+    api "com.google.code.gson:gson:$v_gson"
+
+    //#############################################autosize###################################################
+    api "me.jessyan:autosize:$v_autosize"
+
+    //#############################################Adapter###################################################
+    api "com.github.CymChad:BaseRecyclerViewAdapterHelper:$v_BaseRecyclerViewAdapterHelper"
+
+    //#############################################SmartRefreshLayout###################################################
+    api "com.scwang.smartrefresh:SmartRefreshLayout:$v_smartRefreshLayout"
+    api "com.scwang.smartrefresh:SmartRefreshHeader:$v_smartRefreshLayout"
+
+    //没有使用特殊Header，可以不加这行
+
+    //#############################################circleimageview###################################################
+    api "de.hdodenhof:circleimageview:$v_circleImageView"
+
+    //#############################################glide###################################################
+    api "com.github.bumptech.glide:glide:$v_glide"
+    annotationProcessor "com.github.bumptech.glide:compiler:$v_glide"
+
+    //#############################################easypermissions###################################################
+
+    // For developers using AndroidX in their applications
+    api "pub.devrel:easypermissions:$v_easypermissions"
+
+    //#############################################SpinKit###################################################
+    api "com.github.ybq:Android-SpinKit:$v_spinKit"
+
+    //#############################################banner###################################################
+    api "com.youth.banner:banner:$v_banner"
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}

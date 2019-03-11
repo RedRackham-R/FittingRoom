@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <RelativeLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="52dp">
+        <TextView
+                android:text="衣联直播"
+                android:textColor="@color/color_black"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <LinearLayout
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <TextView
+                    android:text="156"
+                    android:textSize="18sp"
+                    android:textColor="@color/app_theme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:text="个直播"
+                    android:textColor="@color/color_ogrange500"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <ImageView
+                    android:src="@drawable/ic_keyboard_arrow_right_pink_600_24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <com.kiss.fittingroom.weight.gridView.AutoAdaptGridView
+            android:layout_marginBottom="50dp"
+            android:id="@+id/layout_market_live_autoAdaptGridView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="3"
+            android:verticalSpacing="12dp"
+            android:gravity="center"/>
+
+</LinearLayout>

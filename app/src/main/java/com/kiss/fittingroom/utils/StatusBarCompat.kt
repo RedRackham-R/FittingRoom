@@ -4,9 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.os.Build
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.view.*
 import android.widget.FrameLayout
+import com.kiss.fittingroom.R
 
 object StatusBarCompat {
 
@@ -124,6 +126,57 @@ object StatusBarCompat {
                 }
             }
         }
+
+    /**
+     * change to full screen mode
+     * @param hideStatusBarBackground hide status bar alpha Background when SDK > 21, true if hide it
+     */
+    @JvmOverloads
+    fun translucentStatusBar1(activity: Activity) {
+        val window = activity.window
+        val mContentView = activity.findViewById<View>(Window.ID_ANDROID_CONTENT) as ViewGroup
+
+        //set child View not fill the system window
+        var mChildView: View? = mContentView.getChildAt(0)
+        if (mChildView != null) {
+            ViewCompat.setFitsSystemWindows(mChildView, false)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            val statusBarHeight = getStatusBarHeight(activity)
+
+            //First translucent status bar.
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                //After LOLLIPOP just set LayoutParams.
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                window.statusBarColor = calculateStatusBarColor(ContextCompat.getColor(activity, R.color.colorPrimary), 255)
+                //must call requestApplyInsets, otherwise it will have space in screen bottom
+                if (mChildView != null) {
+                    ViewCompat.requestApplyInsets(mChildView)
+                }
+            } else {
+                val mDecorView = window.decorView as ViewGroup
+                if (mDecorView.tag != null && mDecorView.tag is Boolean && mDecorView.tag as Boolean) {
+                    mChildView = mDecorView.getChildAt(0)
+                    //remove fake status bar view.
+                    mContentView.removeView(mChildView)
+                    mChildView = mContentView.getChildAt(0)
+                    if (mChildView != null) {
+                        val lp = mChildView.layoutParams as FrameLayout.LayoutParams
+                        //cancel the margin top
+                        if (lp != null && lp.topMargin >= statusBarHeight) {
+                            lp.topMargin -= statusBarHeight
+                            mChildView.layoutParams = lp
+                        }
+                    }
+                    mDecorView.tag = false
+                }
+            }
+        }
+    }
+
+
 
         //Get status bar height
         fun getStatusBarHeight(context: Context): Int {

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        android:gravity="center"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <!--建立两个空的控件以用来后面的载入-->
+    <ImageView
+            android:id="@+id/item_market_live_img"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+    <TextView
+            android:textColor="@color/color_black"
+            android:textSize="16sp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/item_market_live_tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    <TextView
+            android:textColor="@color/color_gray80"
+            android:textSize="12sp"
+            android:layout_marginTop="2dp"
+            android:id="@+id/item_market_live_tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+</LinearLayout>

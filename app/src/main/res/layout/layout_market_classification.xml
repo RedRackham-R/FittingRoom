@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kiss.fittingroom.weight.gridView.AutoAdaptGridView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/iten_market_classification_gridView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="5"
+        android:padding="5dp"
+        android:verticalSpacing="12dp"
+        android:gravity="center">
+</com.kiss.fittingroom.weight.gridView.AutoAdaptGridView>

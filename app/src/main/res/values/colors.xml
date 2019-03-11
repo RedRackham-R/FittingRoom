@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="app_theme">#d4237a</color><!--主题颜色-->
+    <color name="app_theme">#FFd4237a</color><!--主题颜色-->
     <color name="app_statusbar">#03A9F4</color><!--状态栏颜色-->
     <color name="app_view_background">#EEEEEEEE</color><!--view的背景颜色-->
     <color name="app_container_background">#EEEEEEEE</color><!--容器vierw的背景颜色-->

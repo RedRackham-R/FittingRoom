@@ -1,8 +1,8 @@
 package com.kiss.fittingroom.view
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.util.Log
+import android.support.design.widget.CoordinatorLayout
+import android.widget.RelativeLayout
 import com.kiss.fittingroom.R
 import com.kiss.fittingroom.base.BaseActivity
 import com.kiss.fittingroom.base.BaseFragment
@@ -10,6 +10,7 @@ import com.kiss.fittingroom.utils.StatusBarCompat
 import com.kiss.fittingroom.view.live.LiveFragmnet
 import com.kiss.fittingroom.view.market.MarketFragment
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : BaseActivity() {
 
@@ -21,6 +22,8 @@ class MainActivity : BaseActivity() {
         StatusBarCompat.translucentStatusBar(this@MainActivity, false)
         initViews()
         initFragments()
+
+
     }
 
     override fun setAttachLayoutRes(): Int {
@@ -28,7 +31,8 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        activity_main_bottomNavigationView.run {//底部导航栏
+        activity_main_bottomNavigationView.run {
+            //底部导航栏
             setOnNavigationItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.menu_bottom_navigation_market -> {//商城
@@ -43,7 +47,8 @@ class MainActivity : BaseActivity() {
                         if (currentIndex != 1) {
                             if (itemFragments[1] == null) {
                                 itemFragments[1] = LiveFragmnet.newInstance()
-                                supportFragmentManager.beginTransaction().add(R.id.activity_main_container, itemFragments[1]!!).commit()
+                                supportFragmentManager.beginTransaction()
+                                    .add(R.id.activity_main_container, itemFragments[1]!!).commit()
                             }
                             showHideFragment(itemFragments[1]!!, itemFragments[currentIndex]!!)
                             currentIndex = 1

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/transparent"
+        android:id="@+id/layout_market_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <ImageView
+            android:src="@drawable/icon_scanqr"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_gravity="start"
+    />
+
+    <ImageView
+            android:src="@drawable/ic_android_pink_600_24dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <ImageView
+            android:src="@drawable/ic_search_white_24dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_gravity="end"
+            android:text="OK"/>
+
+
+</android.support.v7.widget.Toolbar>

@@ -6,18 +6,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.MainActivity">
-    <FrameLayout
-            android:layout_above="@+id/activity_main_bottomNavigationView"
-            android:id="@+id/activity_main_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    <android.support.design.widget.BottomNavigationView
-            android:id="@+id/activity_main_bottomNavigationView"
-            android:layout_alignParentBottom="true"
-            style="@style/Widget.Design.BottomNavigationView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:labelVisibilityMode="labeled"
-            app:menu="@menu/menu_main_bottomnavigation"
-            android:background="@color/color_white"/>
+
+
+
+
+        <FrameLayout
+                android:layout_above="@+id/activity_main_bottomNavigationView"
+                android:id="@+id/activity_main_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        <android.support.design.widget.BottomNavigationView
+                android:id="@+id/activity_main_bottomNavigationView"
+                style="@style/Widget.Design.BottomNavigationView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom"
+                android:background="@color/color_white"
+                app:menu="@menu/menu_main_bottomnavigation"
+                app:labelVisibilityMode="labeled"/>
+
 </RelativeLayout>

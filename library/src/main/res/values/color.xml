@@ -6,11 +6,12 @@
     <color name="color_light_blue800">#0277BD</color>
     <color name="color_brown500">#795548</color>
     <color name="color_ogrange500">#EF6C00</color>
-
+    <color name="color_green_600">#43A047</color>
 
     <color name="color_gray9">#99999999</color>
     <color name="color_white">#FFFFFFFF</color>
     <color name="color_whiteE">#EEEEEEEE</color>
+    <color name="color_whiteA">#AAAAAAAA</color>
     <color name="color_gray80">#80808080</color>
     <color name="color_black">#FF000000</color>
     <color name="half_tran_white">#88FFFFFF</color>

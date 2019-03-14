@@ -1,6 +1,7 @@
 package com.kiss.fittingroom.view.market
 
 import android.os.Bundle
+import android.provider.Settings
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -8,7 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.widget.LinearLayout
+import android.widget.*
+import com.bumptech.glide.Glide
 import com.kiss.fittingroom.R
 import com.kiss.fittingroom.base.BaseFragment
 import com.kiss.fittingroom.weight.banner.MarketBannerImageLoader
@@ -16,7 +18,6 @@ import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
 import com.youth.banner.Transformer
 import kotlinx.android.synthetic.main.layout_list_refresh.*
-import android.widget.RelativeLayout
 import com.kiss.fittingroom.adapter.*
 import com.kiss.fittingroom.entity.*
 import com.kiss.fittingroom.utils.StatusBarCompat
@@ -55,6 +56,9 @@ class MarketFragment : BaseFragment() {
     private lateinit var mBusinessContainerView: View//商圈
     private lateinit var mBusinessGridView: AutoAdaptGridView
     private lateinit var mBussinessAdapter: MarketBusinessAdapter
+
+    private lateinit var mSquareContainerView: View//同行求货广场
+    private lateinit var mSquareViewFlipper: ViewFlipper
 
     companion object {
         fun newInstance(): MarketFragment {
@@ -152,19 +156,37 @@ class MarketFragment : BaseFragment() {
         mHottestGridAdapter.setNewData(hottestGridDataList)
         //--------------商圈数据
         val businessData: ArrayList<TestMarketBusinessEntity> = ArrayList()
-        for(index in 0..2){
-            businessData.add(TestMarketBusinessEntity(
-                R.drawable.test_img_1,
-                "测试标题$index",
-                "4096",
-                "6589",
-                "测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明" +
-                        "测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测",
-            "40.72万人在线",
-                "出货53.58万款",
-                "4689评论"))
+        for (index in 0..2) {
+            businessData.add(
+                TestMarketBusinessEntity(
+                    R.drawable.test_img_1,
+                    "测试标题$index",
+                    "4096",
+                    "6589",
+                    "测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明" +
+                            "测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测",
+                    "40.72万人在线",
+                    "出货53.58万款",
+                    "4689评论"
+                )
+            )
         }
         mBussinessAdapter.setNewData(businessData)
+
+        //--------------求货广场
+        val squareDataList:ArrayList<TestMarketSquareEntity> = ArrayList()
+        for (index in 0..9){
+            squareDataList.add(TestMarketSquareEntity("用户名$index","测试说明测试说明测试说明测试说明测试说明测试说明测",R.drawable.ic_android_pink_600_24dp))
+            val tempSquareItemView = LayoutInflater.from(this@MarketFragment.context!!).inflate(R.layout.item_market_square,mSquareViewFlipper,false)
+            val imageView :ImageView = tempSquareItemView.findViewById(R.id.item_market_square_imageView)
+            val nameTv:TextView = tempSquareItemView.findViewById(R.id.item_market_square_name)
+            val textTv:TextView = tempSquareItemView.findViewById(R.id.item_market_square_text)
+            val releaseBtn :View = tempSquareItemView.findViewById(R.id.item_market_square_release)
+            Glide.with(this@MarketFragment.context!!).load(squareDataList[index].img).into(imageView)
+            nameTv.text = squareDataList[index].userName
+            textTv.text = squareDataList[index].text
+            mSquareViewFlipper.addView(tempSquareItemView,index)
+        }
     }
 
 
@@ -175,7 +197,6 @@ class MarketFragment : BaseFragment() {
             .inflate(R.layout.layout_loading, layout_list_refresh_recycView.parent as ViewGroup, false)
         mErrorView = LayoutInflater.from(context)
             .inflate(R.layout.layout_load_error, layout_list_refresh_recycView.parent as ViewGroup, false)
-
 
 
         //------------------------------------------------------toolbar
@@ -325,10 +346,18 @@ class MarketFragment : BaseFragment() {
 
         }
         mMarketListAdapter.addHeaderView(mBusinessContainerView, 4)
+        //-------------------------------------------------------求货广场
+        mSquareContainerView = LayoutInflater.from(context).inflate(
+            R.layout.layout_market_square,
+            layout_list_refresh_recycView,
+            false
+        ) as View
+        mSquareViewFlipper = mSquareContainerView.findViewById(R.id.layout_market_square_viewFlipper)
+        mMarketListAdapter.addHeaderView(mSquareContainerView,5)
         //------------------------------------------------------状态栏
         status_bar.run {
             StatusBarCompat.translucentStatusBar(this@MarketFragment.activity!!)
-              setBackgroundColor(ContextCompat.getColor(this@MarketFragment.context!!, R.color.transparent))
+            setBackgroundColor(ContextCompat.getColor(this@MarketFragment.context!!, R.color.transparent))
         }
         //------------------------------------------------------refresh 刷新
         layout_list_refresh_layout.run {

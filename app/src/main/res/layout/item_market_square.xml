@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent">
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:gravity="center_vertical">
+    <de.hdodenhof.circleimageview.CircleImageView
+            android:src="@drawable/ic_android_pink_600_24dp"
+            android:id="@+id/item_market_square_imageView"
+            android:layout_width="52dp"
+            android:layout_height="52dp"/>
+    <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_width="180dp"
+            android:layout_height="match_parent">
+        <TextView
+                android:id="@+id/item_market_square_name"
+                android:textSize="18sp"
+                android:text="激烈的海胆"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <TextView
+                android:id="@+id/item_market_square_text"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="@color/color_black"
+                android:text="本人想求购意见衣服，是散客户希望能找到"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+
+    <TextView
+            android:id="@+id/item_market_square_release"
+            android:padding="10dp"
+            android:gravity="center"
+            android:text="我要发布"
+            android:background="@drawable/shape_market_square_release"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/color_white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+</LinearLayout>

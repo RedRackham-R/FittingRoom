@@ -1,7 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="20dp">
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <ImageView
+                    android:src="@drawable/ic_android_pink_600_24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:layout_marginStart="5dp"
+                    android:text="同行求货广场"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
 
-</RelativeLayout>
+
+        <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <TextView
+                    android:padding="5dp"
+                    android:textColor="@color/color_white"
+                    android:text="623"
+                    android:background="@drawable/shape_market_business_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <ImageView
+                    android:src="@drawable/ic_keyboard_arrow_right_grey_400_24dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+
+<ViewFlipper
+        android:layout_margin="10dp"
+        android:background="@drawable/shape_market_square_container"
+        android:inAnimation="@anim/square_in"
+        android:outAnimation="@anim/square_out"
+        android:flipInterval="3000"
+        android:autoStart="true"
+        android:id="@+id/layout_market_square_viewFlipper"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"/>
+
+
+
+</LinearLayout>

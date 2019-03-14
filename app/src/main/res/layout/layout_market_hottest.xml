@@ -4,7 +4,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_marginBottom="20dp">
 
     <LinearLayout
             android:orientation="horizontal"
@@ -22,7 +23,7 @@
                 android:layout_height="wrap_content"/>
     </LinearLayout>
     <com.kiss.fittingroom.weight.gridView.AutoAdaptGridView
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/layout_market_hottest_autoAdaptGridView"
             android:layout_width="match_parent"

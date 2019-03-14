@@ -14,8 +14,7 @@ import com.kiss.fittingroom.entity.TestMarketClassificationEntity
 /**
  * @Description:     商城分类
  */
-class MarketClassifitacionAdapter(context:Context):BaseAdapter() {
-    private var mData :ArrayList<TestMarketClassificationEntity>  = ArrayList()
+class MarketClassifitacionAdapter(context:Context):BaseGridAdapter<TestMarketClassificationEntity>() {
     private val mContext = context
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -25,28 +24,8 @@ class MarketClassifitacionAdapter(context:Context):BaseAdapter() {
         }
         val textView = itemView.findViewById<TextView>(R.id.item_classification_tv)
         val imageView = itemView.findViewById<ImageView>(R.id.item_classification_img)
-        textView.text = mData[position].text
-        Glide.with(mContext).load(mData[position].img).into(imageView)
+        textView.text = getData()[position].text
+        Glide.with(mContext).load(getData()[position].img).into(imageView)
         return itemView
-    }
-
-    override fun getItem(position: Int): Any {
-        return mData[position]
-    }
-
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
-    override fun getCount(): Int {
-        return mData.size
-    }
-
-    fun setNewData(data:ArrayList<TestMarketClassificationEntity>){
-        mData.clear()
-        if (!data.isNullOrEmpty()){
-            mData.addAll(data)
-        }
-        notifyDataSetChanged()
     }
 }

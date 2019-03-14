@@ -17,8 +17,7 @@ import com.kiss.fittingroom.entity.TestMarketHottestRecyEntity
 /**
  * @Description:    热门部分
  */
-class MarketHottestGridAdater(context:Context) :BaseAdapter() {
-    private var mData :ArrayList<TestMarketHottestGirdEntity>  = ArrayList()
+class MarketHottestGridAdater(context:Context) :BaseGridAdapter<TestMarketHottestGirdEntity>() {
     private val mContext = context
 
 
@@ -32,8 +31,8 @@ class MarketHottestGridAdater(context:Context) :BaseAdapter() {
         }
         val textView:TextView = itemView.findViewById(R.id.item_market_hottest_textView)
         val recyclerView :RecyclerView = itemView.findViewById(R.id.item_market_hottest_recyclerView)
-        textView.text = mData[position].text
-        textView.setBackgroundColor(mData[position].color)
+        textView.text = getData()[position].text
+        textView.setBackgroundColor(getData()[position].color)
         textView.setTextColor(ContextCompat.getColor(mContext,R.color.color_white))
         val mAdapter = MarketHottestRecyAdapter()
         recyclerView.run {
@@ -44,7 +43,7 @@ class MarketHottestGridAdater(context:Context) :BaseAdapter() {
         }
 
         mAdapter.run {
-            setNewData(mData[position].data)
+            setNewData(this@MarketHottestGridAdater.getData()[position].data)
             setOnItemClickListener { adapter, view, position ->
                 if (mGridRecyclerItemCliclListener != null){
                     mGridRecyclerItemCliclListener!!.onItemClick(mAdapter,view,position,mAdapter.data[position])
@@ -54,26 +53,6 @@ class MarketHottestGridAdater(context:Context) :BaseAdapter() {
         return itemView
     }
 
-    override fun getItem(position: Int): Any {
-        return mData[position]
-    }
-
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
-    override fun getCount(): Int {
-        return mData.size
-    }
-
-
-    fun setNewData(data:ArrayList<TestMarketHottestGirdEntity>){
-        mData.clear()
-        if (!data.isNullOrEmpty()){
-            mData.addAll(data)
-        }
-        notifyDataSetChanged()
-    }
 
 
     /**
@@ -82,10 +61,6 @@ class MarketHottestGridAdater(context:Context) :BaseAdapter() {
     fun setOnRecyclerViewItemClickListener(listener:OnGridRecyclerViewItemClickListener){
         mGridRecyclerItemCliclListener = listener
     }
-
-
-
-
 
     /**
      * GridView中的RecyclerView点击监听器

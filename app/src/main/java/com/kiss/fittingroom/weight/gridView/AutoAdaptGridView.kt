@@ -30,11 +30,10 @@ class AutoAdaptGridView : GridView {
 
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val heightSpec: Int
-        if (layoutParams.height == AbsListView.LayoutParams.WRAP_CONTENT) {
-            heightSpec = View.MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE shr 2, View.MeasureSpec.AT_MOST)
+        val heightSpec: Int = if (layoutParams.height == AbsListView.LayoutParams.WRAP_CONTENT) {
+            View.MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE shr 2, View.MeasureSpec.AT_MOST)
         } else {
-            heightSpec = heightMeasureSpec
+            heightMeasureSpec
         }
         super.onMeasure(widthMeasureSpec, heightSpec)
     }

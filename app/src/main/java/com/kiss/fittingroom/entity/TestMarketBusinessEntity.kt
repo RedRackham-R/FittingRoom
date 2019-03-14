@@ -1,5 +1,9 @@
 package com.kiss.fittingroom.entity
 
+import android.widget.ImageView
+import android.widget.TextView
+import com.kiss.fittingroom.R
+
 /**
  *
  * @ProjectName:    FittingRoom
@@ -13,5 +17,13 @@ package com.kiss.fittingroom.entity
  * @UpdateRemark:
  * @Version:        1.0
  */
-class TestMarketBusinessEntity {
-}
+data class TestMarketBusinessEntity (
+    var img:Int,
+    val title :String,
+    val week:String,
+    val wechat:String,
+    val content:String,
+    val onLine : String,
+    val sale : String,
+    val comment: String
+)

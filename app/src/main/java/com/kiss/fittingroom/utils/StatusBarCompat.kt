@@ -77,7 +77,7 @@ object StatusBarCompat {
          * change to full screen mode
          * @param hideStatusBarBackground hide status bar alpha Background when SDK > 21, true if hide it
          */
-        @JvmOverloads
+
         fun translucentStatusBar(activity: Activity, hideStatusBarBackground: Boolean = false) {
             val window = activity.window
             val mContentView = activity.findViewById<View>(Window.ID_ANDROID_CONTENT) as ViewGroup
@@ -128,51 +128,30 @@ object StatusBarCompat {
         }
 
     /**
-     * change to full screen mode
-     * @param hideStatusBarBackground hide status bar alpha Background when SDK > 21, true if hide it
+     * 布局中必须有一个id为status_bar的view来设置状态栏背景
+     * 必须要在 setContentView之后调用
+     *
+     * @param activity 当前页面
      */
-    @JvmOverloads
-    fun translucentStatusBar1(activity: Activity) {
-        val window = activity.window
-        val mContentView = activity.findViewById<View>(Window.ID_ANDROID_CONTENT) as ViewGroup
-
-        //set child View not fill the system window
-        var mChildView: View? = mContentView.getChildAt(0)
-        if (mChildView != null) {
-            ViewCompat.setFitsSystemWindows(mChildView, false)
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            val statusBarHeight = getStatusBarHeight(activity)
-
-            //First translucent status bar.
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                //After LOLLIPOP just set LayoutParams.
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                window.statusBarColor = calculateStatusBarColor(ContextCompat.getColor(activity, R.color.colorPrimary), 255)
-                //must call requestApplyInsets, otherwise it will have space in screen bottom
-                if (mChildView != null) {
-                    ViewCompat.requestApplyInsets(mChildView)
-                }
-            } else {
-                val mDecorView = window.decorView as ViewGroup
-                if (mDecorView.tag != null && mDecorView.tag is Boolean && mDecorView.tag as Boolean) {
-                    mChildView = mDecorView.getChildAt(0)
-                    //remove fake status bar view.
-                    mContentView.removeView(mChildView)
-                    mChildView = mContentView.getChildAt(0)
-                    if (mChildView != null) {
-                        val lp = mChildView.layoutParams as FrameLayout.LayoutParams
-                        //cancel the margin top
-                        if (lp != null && lp.topMargin >= statusBarHeight) {
-                            lp.topMargin -= statusBarHeight
-                            mChildView.layoutParams = lp
-                        }
-                    }
-                    mDecorView.tag = false
-                }
+    fun translucentStatusBar(activity: Activity) {
+        // 4.4以上处理
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { // android
+            activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)// 状态栏透明
+            val status_bar = activity.findViewById<View>(R.id.status_bar)// 标题栏id
+            if (status_bar != null) {
+                val params = status_bar.layoutParams
+                params.height = getStatusBarHeight(activity)
+                status_bar.layoutParams = params
             }
+        }
+        //5.0 以上处理
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val window = activity.window
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.decorView.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.statusBarColor = Color.TRANSPARENT
         }
     }
 

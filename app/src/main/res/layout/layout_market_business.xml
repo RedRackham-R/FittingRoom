@@ -3,10 +3,57 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginBottom="20dp">
 
-    <GridView
-            android:id="@+id/layout_market_busniess_gridView"
+    <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <ImageView
+                android:src="@drawable/ic_android_pink_600_24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <TextView
+                android:layout_marginStart="5dp"
+                android:text="热门批发商圈"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <com.kiss.fittingroom.weight.gridView.AutoAdaptGridView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_marginTop="20dp"
+            android:id="@+id/layout_market_business_autoAdaptGridView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:numColumns="1"
+            android:verticalSpacing="12dp"
+            android:gravity="center">
+    </com.kiss.fittingroom.weight.gridView.AutoAdaptGridView>
+
+    <TextView
+            android:layout_marginTop="10dp"
+            android:background="@color/color_gray80"
+            android:layout_width="match_parent"
+            android:layout_height="1px"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:text="查看全国市场（16）"
+                android:id="@+id/layout_market_live_allLiveBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <ImageView
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_keyboard_arrow_right_grey_400_24dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"/>
+    </LinearLayout>
 </LinearLayout>

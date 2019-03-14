@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup
+        android:id="@+id/item_market_switch_radiogoup"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="10dp">
+    <RadioButton
+            android:id="@+id/item_market_switch_today"
+            android:textSize="12sp"
+            android:checked="true"
+            android:background="@drawable/selector_market_switch"
+            android:textColor="@drawable/selector_market_switch_text"
+            android:gravity="center"
+            android:text="今天"
+            android:button="@null"
+            android:layout_weight="0.3"
+            android:layout_width="0dp"
+            android:layout_height="26dp"/>
+    <RadioButton
+            android:id="@+id/item_market_switch_yesterday"
+            android:textSize="12sp"
+            android:background="@drawable/selector_market_switch"
+            android:textColor="@drawable/selector_market_switch_text"
+            android:gravity="center"
+            android:text="昨天"
+            android:button="@null"
+            android:layout_weight="0.3"
+            android:layout_width="0dp"
+            android:layout_height="26dp"/>
+    <RadioButton
+            android:id="@+id/item_market_switch_week"
+            android:textSize="12sp"
+            android:background="@drawable/selector_market_switch"
+            android:textColor="@drawable/selector_market_switch_text"
+            android:gravity="center"
+            android:text="本周"
+            android:button="@null"
+            android:layout_weight="0.3"
+            android:layout_width="0dp"
+            android:layout_height="26dp"/>
+</RadioGroup>

@@ -23,6 +23,7 @@ import com.kiss.fittingroom.entity.*
 import com.kiss.fittingroom.utils.StatusBarCompat
 import com.kiss.fittingroom.utils.ToastUtil
 import com.kiss.fittingroom.weight.gridView.AutoAdaptGridView
+import kotlinx.android.synthetic.main.item_market_switch.view.*
 import kotlinx.android.synthetic.main.layout_market_bar.*
 
 
@@ -60,6 +61,9 @@ class MarketFragment : BaseFragment() {
     private lateinit var mSquareContainerView: View//同行求货广场
     private lateinit var mSquareViewFlipper: ViewFlipper
 
+    private lateinit var mTimeSwitchContainerView:View//时段选择
+    private lateinit var mTimeSwitchRadioGroup:RadioGroup
+
     companion object {
         fun newInstance(): MarketFragment {
             return MarketFragment()
@@ -80,9 +84,21 @@ class MarketFragment : BaseFragment() {
      */
     private fun initData() {
         //--------------RecyclerView数据
-        val data: ArrayList<String> = ArrayList()
-        for (i in 0..50) {
-            data.add("测试数据$i")
+        val data: ArrayList<TestMarketListEntity> = ArrayList()
+        for (index in 0..50) {
+            data.add(TestMarketListEntity(
+                "1小时前 激烈**海胆下的订单卖家发货了",
+                "有爱的小店$index",
+                R.drawable.icon_head,
+                "·当前离线",
+                R.drawable.icon_test_goods_1,
+                "单售：￥88",
+                R.drawable.icon_test_goods_2,
+                "单售：￥120",
+                R.drawable.icon_test_goods_3,
+                "单售：￥220"
+
+            ))
         }
         mMarketListAdapter.setNewData(data)
 
@@ -354,6 +370,33 @@ class MarketFragment : BaseFragment() {
         ) as View
         mSquareViewFlipper = mSquareContainerView.findViewById(R.id.layout_market_square_viewFlipper)
         mMarketListAdapter.addHeaderView(mSquareContainerView,5)
+
+        //-------------------------------------------------------时段选择
+        mTimeSwitchContainerView = LayoutInflater.from(context).inflate(
+            R.layout.layout_market_switch,
+            layout_list_refresh_recycView,
+            false
+        ) as View
+        mTimeSwitchRadioGroup = mTimeSwitchContainerView.findViewById(R.id.item_market_switch_radiogoup)
+        mTimeSwitchRadioGroup.run {
+            setOnCheckedChangeListener { group, checkedId ->
+                when(checkedId){
+                    R.id.item_market_switch_today->{//今天
+
+                    }
+                    R.id.item_market_switch_yesterday->{//昨天
+
+                    }
+
+                    R.id.item_market_switch_week->{ //这周
+
+                    }
+                }
+            }
+        }
+
+        mMarketListAdapter.addHeaderView(mTimeSwitchContainerView,6)
+
         //------------------------------------------------------状态栏
         status_bar.run {
             StatusBarCompat.translucentStatusBar(this@MarketFragment.activity!!)

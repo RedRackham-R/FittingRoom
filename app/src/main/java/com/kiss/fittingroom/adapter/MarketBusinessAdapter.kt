@@ -43,7 +43,7 @@ class MarketBusinessAdapter(context: Context) : BaseGridAdapter<TestMarketBusine
         val saleTv: TextView = itemView.findViewById(R.id.item_market_business_sale)//出货
         val commentTv: TextView = itemView.findViewById(R.id.item_market_business_comment)//评论
 
-        Glide.with(mContext).load(img).into(img)
+        Glide.with(mContext).load(getData()[position].img).into(img)
         titleTv.text = getData()[position].title
         weekTv.text = getData()[position].week
         wechatTv.text = getData()[position].wechat

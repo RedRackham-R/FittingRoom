@@ -16,7 +16,8 @@
     <color name="color_black">#FF000000</color>
     <color name="half_tran_white">#88FFFFFF</color>
     <color name="half_tran_black">#88000000</color>
-    <color name="half_tran_gray"> #88888888</color>
+    <color name="half_tran_gray">#88888888</color>
+    <color name="tran_black">#AA222222</color>
 
     <color name="BD">#BDBDBD</color>
 

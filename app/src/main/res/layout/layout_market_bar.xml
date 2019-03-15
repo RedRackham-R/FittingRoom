@@ -23,18 +23,21 @@
             android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <ImageView
+                android:id="@+id/layout_market_bar_scan"
                 android:src="@drawable/icon_scanqr"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="start"/>
 
         <ImageView
-                android:src="@drawable/ic_android_pink_600_24dp"
+                android:id="@+id/layout_market_bar_logo"
+                android:src="@drawable/icon_logo_them"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
         <ImageView
+                android:id="@+id/layout_market_bar_search"
                 android:src="@drawable/ic_search_white_24dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -42,6 +45,8 @@
                 android:text="OK"/>
 
     </android.support.v7.widget.Toolbar>
-
+    <include
+            android:id="@+id/layout_market_bar_switch"
+            layout="@layout/layout_market_switch"/>
 
 </LinearLayout>

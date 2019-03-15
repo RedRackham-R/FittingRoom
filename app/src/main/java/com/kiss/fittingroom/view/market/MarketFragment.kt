@@ -1,7 +1,6 @@
 package com.kiss.fittingroom.view.market
 
 import android.os.Bundle
-import android.provider.Settings
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -12,18 +11,15 @@ import android.view.ViewTreeObserver
 import android.widget.*
 import com.bumptech.glide.Glide
 import com.kiss.fittingroom.R
-import com.kiss.fittingroom.base.BaseFragment
-import com.kiss.fittingroom.weight.banner.MarketBannerImageLoader
-import com.youth.banner.Banner
-import com.youth.banner.BannerConfig
-import com.youth.banner.Transformer
-import kotlinx.android.synthetic.main.layout_list_refresh.*
 import com.kiss.fittingroom.adapter.*
+import com.kiss.fittingroom.base.BaseFragment
 import com.kiss.fittingroom.entity.*
 import com.kiss.fittingroom.utils.StatusBarCompat
 import com.kiss.fittingroom.utils.ToastUtil
+import com.kiss.fittingroom.weight.banner.MarketBannerViewHolder
 import com.kiss.fittingroom.weight.gridView.AutoAdaptGridView
-import kotlinx.android.synthetic.main.item_market_switch.view.*
+import com.zhouwei.mzbanner.MZBannerView
+import kotlinx.android.synthetic.main.layout_list_refresh.*
 import kotlinx.android.synthetic.main.layout_market_bar.*
 
 
@@ -42,7 +38,9 @@ class MarketFragment : BaseFragment() {
     private var mBannerHeight: Int = 0
     private var mToolbarHeight: Int = 0
 
-    private lateinit var mBanner: Banner//banner
+
+
+    private lateinit var mBanner: MZBannerView<TestMarketBannerEntity> //banner
     private lateinit var mClassificationGridView: AutoAdaptGridView//分类部分
     private lateinit var mClassifitacionAdapter: MarketClassifitacionAdapter
 
@@ -61,10 +59,24 @@ class MarketFragment : BaseFragment() {
     private lateinit var mSquareContainerView: View//同行求货广场
     private lateinit var mSquareViewFlipper: ViewFlipper
 
-    private lateinit var mTimeSwitchContainerView:View//时段选择
-    private lateinit var mTimeSwitchRadioGroup:RadioGroup
+    private lateinit var mHeaderSwitchContainerView: View// 添加进recyclerView的时段选择
+    private lateinit var mHeaderSwitchRadioGroup: RadioGroup
+    private lateinit var mHeaderSwitchRadioButtonToday: RadioButton//今天
+    private lateinit var mHeaderSwitchRadioButtonYesterday: RadioButton//昨天
+    private lateinit var mHeaderSwitchRadioButtonWeek: RadioButton//这周
 
+    private lateinit var mStickSwitchContainerView: View//粘性头部时段选择
+    private lateinit var mStickSwitchRadioGroup: RadioGroup
+    private lateinit var mStickSwitchRadioButtonToday: RadioButton//今天
+    private lateinit var mStickSwitchRadioButtonYesterday: RadioButton//昨天
+    private lateinit var mStickSwitchRadioButtonWeek: RadioButton//这周
+
+    private var isFristLoad = true
     companion object {
+        const val SWITCH_TYPE_TODAY = 0//选择今天
+        const val SWITCH_TYPE_YESTERDAY = 1//选择昨天
+        const val SWITCH_TYPE_WEEK = 2//选择这周
+
         fun newInstance(): MarketFragment {
             return MarketFragment()
         }
@@ -86,49 +98,54 @@ class MarketFragment : BaseFragment() {
         //--------------RecyclerView数据
         val data: ArrayList<TestMarketListEntity> = ArrayList()
         for (index in 0..50) {
-            data.add(TestMarketListEntity(
-                "1小时前 激烈**海胆下的订单卖家发货了",
-                "有爱的小店$index",
-                R.drawable.icon_head,
-                "·当前离线",
-                R.drawable.icon_test_goods_1,
-                "单售：￥88",
-                R.drawable.icon_test_goods_2,
-                "单售：￥120",
-                R.drawable.icon_test_goods_3,
-                "单售：￥220"
+            data.add(
+                TestMarketListEntity(
+                    "1小时前 激烈**海胆下的订单卖家发货了",
+                    "有爱的小店$index",
+                    R.drawable.icon_head,
+                    "·当前离线",
+                    R.drawable.icon_test_goods_1,
+                    "单售：￥88",
+                    R.drawable.icon_test_goods_2,
+                    "单售：￥120",
+                    R.drawable.icon_test_goods_3,
+                    "单售：￥220"
 
-            ))
+                )
+            )
         }
         mMarketListAdapter.setNewData(data)
-
         //--------------Banner数据
-        val bannerTitles = ArrayList<String>()
-        for (i in 0..2) {
-            bannerTitles.add("测试banner $i")
-        }
-        val bannerData = ArrayList<Int>()
-
-        for (i in 0..2) {
-            when (i) {
-                0 -> {
-                    bannerData.add(R.drawable.test_img_1)
-                }
-                1 -> {
-                    bannerData.add(R.drawable.test_img_2)
-                }
-                2 -> {
-                    bannerData.add(R.drawable.test_img_3)
-                }
+        // 设置数据
+        val bannerData :ArrayList<TestMarketBannerEntity> = ArrayList()
+        for (index in 0..4){
+            when(index){
+                0->{  bannerData.add(TestMarketBannerEntity(R.drawable.test_img_1, "测试banner标题$index"))}
+                1->{  bannerData.add(TestMarketBannerEntity(R.drawable.test_img_2, "测试banner标题$index"))}
+                2->{  bannerData.add(TestMarketBannerEntity(R.drawable.test_img_3, "测试banner标题$index"))}
+                else->{  bannerData.add(TestMarketBannerEntity(R.drawable.test_img_3, "测试banner标题$index"))}
             }
         }
-        mBanner.setBannerTitles(bannerTitles)
-        mBanner.update(bannerData)
+        mBanner.setPages(bannerData) {
+            MarketBannerViewHolder()
+        }
+
 
         //--------------分类数据
         val classifitacinDataList: ArrayList<TestMarketClassificationEntity> = ArrayList()
-        for (i in 0..9) {
-            classifitacinDataList.add(TestMarketClassificationEntity("分类$i", R.drawable.ic_android_pink_600_24dp))
+        for (index in 0..9) {
+            when(index){
+                0->{ classifitacinDataList.add(TestMarketClassificationEntity("分类$index", R.drawable.icon_classification0))}
+                1->{ classifitacinDataList.add(TestMarketClassificationEntity("分类$index", R.drawable.icon_classification1))}
+                2->{ classifitacinDataList.add(TestMarketClassificationEntity("分类$index", R.drawable.icon_classification2))}
+                3->{ classifitacinDataList.add(TestMarketClassificationEntity("分类$index", R.drawable.icon_classification3))}
+                4->{ classifitacinDataList.add(TestMarketClassificationEntity("分类$index", R.drawable.icon_classification4))}
+                5->{ classifitacinDataList.add(TestMarketClassificationEntity("分类$index", R.drawable.icon_classification5))}
+                6->{ classifitacinDataList.add(TestMarketClassificationEntity("分类$index", R.drawable.icon_classification6))}
+                7->{ classifitacinDataList.add(TestMarketClassificationEntity("分类$index", R.drawable.icon_classification7))}
+                8->{ classifitacinDataList.add(TestMarketClassificationEntity("分类$index", R.drawable.icon_classification8))}
+                9->{ classifitacinDataList.add(TestMarketClassificationEntity("分类$index", R.drawable.icongif_classification))}
+            }
         }
         mClassifitacionAdapter.setNewData(classifitacinDataList)
 
@@ -192,10 +209,10 @@ class MarketFragment : BaseFragment() {
         //--------------求货广场
         val squareDataList:ArrayList<TestMarketSquareEntity> = ArrayList()
         for (index in 0..9){
-            squareDataList.add(TestMarketSquareEntity("用户名$index","测试说明测试说明测试说明测试说明测试说明测试说明测",R.drawable.ic_android_pink_600_24dp))
+            squareDataList.add(TestMarketSquareEntity("用户名$index","测试说明测试说明测试说明测试说明测试说明测试说明测",R.drawable.icon_head))
             val tempSquareItemView = LayoutInflater.from(this@MarketFragment.context!!).inflate(R.layout.item_market_square,mSquareViewFlipper,false)
-            val imageView :ImageView = tempSquareItemView.findViewById(R.id.item_market_square_imageView)
-            val nameTv:TextView = tempSquareItemView.findViewById(R.id.item_market_square_name)
+            val imageView : ImageView = tempSquareItemView.findViewById(R.id.item_market_square_imageView)
+            val nameTv: TextView = tempSquareItemView.findViewById(R.id.item_market_square_name)
             val textTv:TextView = tempSquareItemView.findViewById(R.id.item_market_square_text)
             val releaseBtn :View = tempSquareItemView.findViewById(R.id.item_market_square_release)
             Glide.with(this@MarketFragment.context!!).load(squareDataList[index].img).into(imageView)
@@ -203,9 +220,13 @@ class MarketFragment : BaseFragment() {
             textTv.text = squareDataList[index].text
             mSquareViewFlipper.addView(tempSquareItemView,index)
         }
+
     }
 
 
+    /**
+     * 初始化各个view
+     */
     private fun initViews() {
         mEmptyView = LayoutInflater.from(context)
             .inflate(R.layout.layout_load_empty, layout_list_refresh_recycView.parent as ViewGroup, false)
@@ -219,11 +240,6 @@ class MarketFragment : BaseFragment() {
         layout_market_bar.run {
             //设置toolbar的margin 设置到状态栏下
             setBackgroundColor(ContextCompat.getColor(this@MarketFragment.context!!, R.color.color_brown500))
-            //这个本来只是设置toolbar的margin
-/*            val lp = layoutParams as LinearLayout.LayoutParams
-            lp.setMargins(0, StatusBarCompat.getStatusBarHeight(this@MarketFragment.context!!), 0, 0)
-            layoutParams = lp*/
-            /*inflateMenu(com.kiss.fittingroom.R.menu.menu_main_search)*/
             viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 //获取view高度
                 override fun onGlobalLayout() {
@@ -235,15 +251,23 @@ class MarketFragment : BaseFragment() {
                             R.color.transparent
                         )
                     )
+                    status_bar.setBackgroundColor(
+                        ContextCompat.getColor(
+                            this@MarketFragment.context!!,
+                            R.color.transparent
+                        )
+                    )
                 }
             })
         }
+
+
         //------------------------------------------------------recyclerView
         mMarketListAdapter = MarketListAdapter()
         layout_list_refresh_recycView.run {
             layoutManager = LinearLayoutManager(this@MarketFragment.context)
             adapter = mMarketListAdapter
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            addOnScrollListener(object : RecyclerView.OnScrollListener() { //添加滚动箭筒
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     recyclerViewScrollOffset += dy
@@ -261,6 +285,11 @@ class MarketFragment : BaseFragment() {
                                 R.color.app_theme
                             )
                         )
+                        if (isFristLoad){
+                            isFristLoad = false
+                        }else{
+                            Glide.with(this@MarketFragment.context!!).load(R.drawable.icon_logo_white).into(layout_market_bar_logo) //设置logo
+                        }
                     } else {
                         status_bar.setBackgroundColor(
                             ContextCompat.getColor(
@@ -274,6 +303,12 @@ class MarketFragment : BaseFragment() {
                                 R.color.transparent
                             )
                         )
+                        Glide.with(this@MarketFragment.context!!).load(R.drawable.icon_logo_them ).into(layout_market_bar_logo) //设置logo
+                    }
+                    if (recyclerViewScrollOffset >= getAllHeaderHeight()) {//判断偏移量是否超过所有header的高度
+                        layout_market_bar_switch.visibility = View.VISIBLE
+                    } else {
+                        layout_market_bar_switch.visibility = View.INVISIBLE
                     }
                 }
             })
@@ -284,7 +319,7 @@ class MarketFragment : BaseFragment() {
             R.layout.layout_market_banner,
             layout_list_refresh_recycView,
             false
-        ) as Banner
+        ) as MZBannerView<TestMarketBannerEntity>
         mBanner.run {
             viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 //获取View高度
@@ -293,13 +328,7 @@ class MarketFragment : BaseFragment() {
                     mBannerHeight = mBanner.measuredHeight
                 }
             })
-
-            setImageLoader(MarketBannerImageLoader())
-            setOnBannerListener {
-
-            }
-            setBannerAnimation(Transformer.DepthPage)
-            setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE)
+            setIndicatorVisible(false)
         }
         mMarketListAdapter.addHeaderView(mBanner, 0)
 
@@ -369,33 +398,62 @@ class MarketFragment : BaseFragment() {
             false
         ) as View
         mSquareViewFlipper = mSquareContainerView.findViewById(R.id.layout_market_square_viewFlipper)
-        mMarketListAdapter.addHeaderView(mSquareContainerView,5)
+        mMarketListAdapter.addHeaderView(mSquareContainerView, 5)
 
-        //-------------------------------------------------------时段选择
-        mTimeSwitchContainerView = LayoutInflater.from(context).inflate(
+        //-------------------------------------------------------时段选择 (添加进RecyclerView)
+        mHeaderSwitchContainerView = LayoutInflater.from(context).inflate(
             R.layout.layout_market_switch,
             layout_list_refresh_recycView,
             false
         ) as View
-        mTimeSwitchRadioGroup = mTimeSwitchContainerView.findViewById(R.id.item_market_switch_radiogoup)
-        mTimeSwitchRadioGroup.run {
+        mHeaderSwitchRadioGroup = mHeaderSwitchContainerView.findViewById(R.id.item_market_switch_radiogoup)
+        mHeaderSwitchRadioButtonToday = mHeaderSwitchRadioGroup.findViewById(R.id.item_market_switch_today)
+        mHeaderSwitchRadioButtonYesterday = mHeaderSwitchRadioGroup.findViewById(R.id.item_market_switch_yesterday)
+        mHeaderSwitchRadioButtonWeek = mHeaderSwitchRadioGroup.findViewById(R.id.item_market_switch_week)
+        mHeaderSwitchRadioGroup.run {
             setOnCheckedChangeListener { group, checkedId ->
-                when(checkedId){
-                    R.id.item_market_switch_today->{//今天
-
+                when (checkedId) {
+                    R.id.item_market_switch_today -> {//今天
+                        switchBusniessTime(SWITCH_TYPE_TODAY)
                     }
-                    R.id.item_market_switch_yesterday->{//昨天
-
+                    R.id.item_market_switch_yesterday -> {//昨天
+                        switchBusniessTime(SWITCH_TYPE_YESTERDAY)
                     }
 
-                    R.id.item_market_switch_week->{ //这周
-
+                    R.id.item_market_switch_week -> { //这周
+                        switchBusniessTime(SWITCH_TYPE_WEEK)
                     }
                 }
             }
         }
+        mMarketListAdapter.addHeaderView(mHeaderSwitchContainerView, 6)
 
-        mMarketListAdapter.addHeaderView(mTimeSwitchContainerView,6)
+
+        //-------------------------------------------------------时段选择 (粘性头部)
+        mStickSwitchContainerView = layout_market_bar_switch
+        mStickSwitchRadioGroup = mStickSwitchContainerView.findViewById(R.id.item_market_switch_radiogoup)
+        mStickSwitchRadioButtonToday = mStickSwitchRadioGroup.findViewById(R.id.item_market_switch_today)
+        mStickSwitchRadioButtonYesterday = mStickSwitchRadioGroup.findViewById(R.id.item_market_switch_yesterday)
+        mStickSwitchRadioButtonWeek = mStickSwitchRadioGroup.findViewById(R.id.item_market_switch_week)
+        mStickSwitchRadioGroup.run {
+            setOnCheckedChangeListener { group, checkedId ->
+                when (checkedId) {
+                    R.id.item_market_switch_today -> {//今天
+                        switchBusniessTime(SWITCH_TYPE_TODAY)
+                        scrollToBusniessTop()
+                    }
+                    R.id.item_market_switch_yesterday -> {//昨天
+                        switchBusniessTime(SWITCH_TYPE_YESTERDAY)
+                        scrollToBusniessTop()
+                    }
+
+                    R.id.item_market_switch_week -> { //这周
+                        switchBusniessTime(SWITCH_TYPE_WEEK)
+                        scrollToBusniessTop()
+                    }
+                }
+            }
+        }
 
         //------------------------------------------------------状态栏
         status_bar.run {
@@ -407,4 +465,56 @@ class MarketFragment : BaseFragment() {
 
         }
     }
+
+
+    /**
+     * 返回所有头布局的高度
+     */
+    private fun getAllHeaderHeight(): Int {
+        return mBanner.measuredHeight + mClassificationGridView.measuredHeight + mLiveContainerView.measuredHeight + mHottestContainerView.measuredHeight + mBusinessContainerView.measuredHeight + mSquareContainerView.measuredHeight + layout_market_bar_switch.measuredHeight - mToolbarHeight - StatusBarCompat.getStatusBarHeight(
+            this@MarketFragment.context!!
+        )
+    }
+
+    /**
+     * 滚动到商户的顶端（时间选择）
+     */
+    private fun scrollToBusniessTop() {
+        layout_list_refresh_recycView.scrollBy(0, getAllHeaderHeight() - recyclerViewScrollOffset)
+    }
+
+    /**
+     * 选择商家店铺的时间
+     */
+    private fun switchBusniessTime(switchType: Int) {
+        when (switchType) {
+            SWITCH_TYPE_TODAY -> {
+                if (!mHeaderSwitchRadioButtonToday.isChecked) {
+                    mHeaderSwitchRadioButtonToday.isChecked = true
+                }
+                if (!mStickSwitchRadioButtonToday.isChecked) {
+                    mStickSwitchRadioButtonToday.isChecked = true
+                }
+            }
+            SWITCH_TYPE_YESTERDAY -> {
+                if (!mHeaderSwitchRadioButtonYesterday.isChecked) {
+                    mHeaderSwitchRadioButtonYesterday.isChecked = true
+                }
+                if (!mStickSwitchRadioButtonYesterday.isChecked) {
+                    mStickSwitchRadioButtonYesterday.isChecked = true
+                }
+            }
+            SWITCH_TYPE_WEEK -> {
+                if (!mHeaderSwitchRadioButtonWeek.isChecked) {
+                    mHeaderSwitchRadioButtonWeek.isChecked = true
+                }
+                if (!mStickSwitchRadioButtonWeek.isChecked) {
+                    mStickSwitchRadioButtonWeek.isChecked = true
+                }
+            }
+        }
+
+    }
+
+
 }

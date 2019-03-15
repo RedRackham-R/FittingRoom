@@ -38,7 +38,7 @@ ext{
     v_glide = "4.9.0"
     v_easypermissions = "2.0.1"
     v_spinKit = "1.2.0"
-    v_banner = "1.4.10"
+    v_banner = "v2.0.2"
 }
 
 
@@ -94,7 +94,8 @@ dependencies {
     api "com.github.ybq:Android-SpinKit:$v_spinKit"
 
     //#############################################banner###################################################
-    api "com.youth.banner:banner:$v_banner"
+    api "com.github.pinguo-zhouwei:MZBannerView:$v_banner"
+
     implementation 'com.android.support:appcompat-v7:28.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
